@@ -12,5 +12,4 @@ public abstract class BaseCommand extends Message {
 		super(id);
 
 	}
-
 }

@@ -50,7 +50,6 @@
 			<artifactId>cqrs_core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.pool</groupId>
 			<artifactId>account_common</artifactId>
