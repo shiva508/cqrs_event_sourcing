@@ -19,3 +19,7 @@ GATEWAY=http://localhost:8001/productservice/v1/product/getproduct
 
 DOCKER 
 MONGO_DB:sudo docker run -it -d --name mongo-container -p 27017:27017 --network shivanetwork --restart always -v mongodb_data_container:/data/db mongo:latest
+
+sudo systemctl stop docker
+sudo systemctl stop docker.socket
+

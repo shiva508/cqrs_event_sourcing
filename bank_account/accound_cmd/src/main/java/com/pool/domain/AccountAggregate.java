@@ -3,8 +3,10 @@ package com.pool.domain;
 import java.util.Date;
 
 import com.pool.api.commands.OpenAccountCommand;
+import com.pool.events.AccountClosedEvent;
 import com.pool.events.AccountOpenEvent;
 import com.pool.events.FundsDipositedEvent;
+import com.pool.events.FundsWithdrawnEvent;
 
 import lombok.NoArgsConstructor;
 
@@ -38,5 +40,29 @@ public class AccountAggregate extends AggregrateRoute {
 	public void apply(FundsDipositedEvent event) {
 		this.id = event.getId();
 		this.balance += event.getAmount();
+	}
+
+	public void withdrawnFunds(double amount) {
+		if (!this.active) {
+			throw new IllegalStateException("Funds can not be deposited to closed acount");
+		}
+		raiseEvent(FundsWithdrawnEvent.builder().id(this.id).amount(amount).build());
+	}
+
+	public void apply(FundsWithdrawnEvent event) {
+		this.id = event.getId();
+		this.balance -= event.getAmount();
+	}
+
+	public void closeAccount() {
+		if (!this.active) {
+			throw new IllegalStateException("Funds can not be deposited to closed acount");
+		}
+		raiseEvent(AccountClosedEvent.builder().id(this.id).build());
+	}
+
+	public void apply(AccountClosedEvent event) {
+		this.id = event.getId();
+		this.active = false;
 	}
 }

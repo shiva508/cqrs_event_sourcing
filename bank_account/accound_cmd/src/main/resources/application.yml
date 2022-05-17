@@ -3,6 +3,11 @@ server:
 spring:
  application:
     name: accound_cmd
+ data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: bankAccount
  kafka:
     producer:
       bootstrap-servers:
