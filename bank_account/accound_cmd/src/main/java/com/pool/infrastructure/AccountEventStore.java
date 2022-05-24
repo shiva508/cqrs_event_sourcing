@@ -11,16 +11,19 @@ import com.pool.events.BaseEvent;
 import com.pool.events.EventModel;
 import com.pool.exception.ArrigateNotFoundException;
 import com.pool.exception.ConcurrancyException;
+import com.pool.producers.EventProducer;
 
 @Service
 public class AccountEventStore implements EventStore {
 
 	private final EventStoreRepository eventStoreRepository;
+	private final EventProducer eventProducer;
 
 	@Autowired
-	public AccountEventStore(EventStoreRepository eventStoreRepository) {
+	public AccountEventStore(EventStoreRepository eventStoreRepository, EventProducer eventProducer) {
 		super();
 		this.eventStoreRepository = eventStoreRepository;
+		this.eventProducer = eventProducer;
 	}
 
 	@Override
@@ -39,8 +42,8 @@ public class AccountEventStore implements EventStore {
 					.eventType(event.getClass().getTypeName()).build();
 
 			var persistedEvent = eventStoreRepository.save(eventModel);
-			if (null != persistedEvent) {
-				// KAFKA IMPLEMENTATION
+			if (!persistedEvent.getId().isEmpty()) {
+				eventProducer.produce(event.getClass().getSimpleName(), event);
 			}
 
 		}

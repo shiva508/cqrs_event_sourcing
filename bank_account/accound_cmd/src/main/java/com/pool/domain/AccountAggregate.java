@@ -65,4 +65,8 @@ public class AccountAggregate extends AggregrateRoute {
 		this.id = event.getId();
 		this.active = false;
 	}
+
+	public double getBalance() {
+		return balance;
+	}
 }
