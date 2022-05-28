@@ -8,5 +8,5 @@ import com.pool.events.EventModel;
 
 @Repository
 public interface EventStoreRepository extends MongoRepository<EventModel, String> {
-	List<EventModel> findByaggregrateIdentifier(String aggregrateIdentifier);
+	List<EventModel> findByAggregrateIdentifier(String aggregrateIdentifier);
 }

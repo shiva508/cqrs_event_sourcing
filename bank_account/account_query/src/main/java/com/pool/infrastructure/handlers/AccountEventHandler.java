@@ -20,9 +20,13 @@ public class AccountEventHandler implements EventHandler {
 
 	@Override
 	public void on(AccountOpenEvent event) {
-		var bankAccount = BankAccount.builder().id(event.getId()).accountHolder(event.getAccountHolder())
-				.creationDate(event.getCreatedDate()).accountType(event.getAccountType())
-				.balance(event.getOpeningBalance()).build();
+		var bankAccount = BankAccount.builder()
+												.id(event.getId())
+												.accountHolder(event.getAccountHolder())
+												.creationDate(event.getCreatedDate())
+												.accountType(event.getAccountType())
+												.balance(event.getOpeningBalance())
+												.build();
 		accountRepository.save(bankAccount);
 	}
 

@@ -28,7 +28,7 @@ public class AccountEventStore implements EventStore {
 
 	@Override
 	public void saveEvent(String aggregateId, Iterable<BaseEvent> events, int expectedVersion) {
-		var eventStream = eventStoreRepository.findByaggregrateIdentifier(aggregateId);
+		var eventStream = eventStoreRepository.findByAggregrateIdentifier(aggregateId);
 		if (expectedVersion != -1 && eventStream.get(eventStream.size() - 1).getVersion() != expectedVersion) {
 			throw new ConcurrancyException();
 		}
@@ -37,9 +37,15 @@ public class AccountEventStore implements EventStore {
 		for (var event : events) {
 			version++;
 			event.setVersion(version);
-			var eventModel = EventModel.builder().timeStamp(new Date()).aggregrateIdentifier(aggregateId)
-					.aggregrateType(AccountEventStore.class.getTypeName()).version(version)
-					.eventType(event.getClass().getTypeName()).build();
+			var eventModel = EventModel
+										.builder()
+										.timeStamp(new Date())
+										.aggregrateIdentifier(aggregateId)
+										.aggregrateType(AccountEventStore.class.getTypeName())
+										.version(version)
+										.eventType(event.getClass().getTypeName())
+										.eventData(event)
+										.build();
 
 			var persistedEvent = eventStoreRepository.save(eventModel);
 			if (!persistedEvent.getId().isEmpty()) {
@@ -51,7 +57,7 @@ public class AccountEventStore implements EventStore {
 
 	@Override
 	public List<BaseEvent> getEvents(String aggregateId) {
-		var eventStream = eventStoreRepository.findByaggregrateIdentifier(aggregateId);
+		var eventStream = eventStoreRepository.findByAggregrateIdentifier(aggregateId);
 
 		if (null == eventStream || eventStream.isEmpty()) {
 			throw new ArrigateNotFoundException("Incurrect accound Id proviede");

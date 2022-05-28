@@ -8,6 +8,10 @@ spring:
       host: localhost
       port: 27017
       database: bankAccount
+ jpa:
+  show-sql: 'true'
+  hibernate:
+    ddl-auto: create-drop
  kafka:
     producer:
       bootstrap-servers:
@@ -15,5 +19,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
         
-      
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html      
         

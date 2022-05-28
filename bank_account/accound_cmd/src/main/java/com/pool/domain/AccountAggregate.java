@@ -16,9 +16,14 @@ public class AccountAggregate extends AggregrateRoute {
 	private double balance;
 
 	public AccountAggregate(OpenAccountCommand command) {
-		raiseEvent(AccountOpenEvent.builder().id(command.getId()).accountHolder(command.getAccountHolder())
-				.createdDate(new Date()).accountType(command.getAccountType())
-				.openingBalance(command.getOpeningBalance()).build());
+		raiseEvent(AccountOpenEvent
+									.builder()
+									.id(command.getId())
+									.accountHolder(command.getAccountHolder())
+									.createdDate(new Date())
+									.accountType(command.getAccountType())
+									.openingBalance(command.getOpeningBalance())
+									.build());
 	}
 
 	public void apply(AccountOpenEvent event) {
@@ -34,7 +39,10 @@ public class AccountAggregate extends AggregrateRoute {
 		if (amount <= 0) {
 			throw new IllegalStateException("Deposit ammount must be greater than 0!");
 		}
-		raiseEvent(FundsDipositedEvent.builder().id(this.id).amount(amount).build());
+		raiseEvent(FundsDipositedEvent.builder()
+												.id(this.id)
+												.amount(amount)
+												.build());
 	}
 
 	public void apply(FundsDipositedEvent event) {
@@ -46,7 +54,10 @@ public class AccountAggregate extends AggregrateRoute {
 		if (!this.active) {
 			throw new IllegalStateException("Funds can not be deposited to closed acount");
 		}
-		raiseEvent(FundsWithdrawnEvent.builder().id(this.id).amount(amount).build());
+		raiseEvent(FundsWithdrawnEvent.builder()
+												.id(this.id)
+												.amount(amount)
+												.build());
 	}
 
 	public void apply(FundsWithdrawnEvent event) {
@@ -58,7 +69,9 @@ public class AccountAggregate extends AggregrateRoute {
 		if (!this.active) {
 			throw new IllegalStateException("Funds can not be deposited to closed acount");
 		}
-		raiseEvent(AccountClosedEvent.builder().id(this.id).build());
+		raiseEvent(AccountClosedEvent.builder()
+												.id(this.id)
+												.build());
 	}
 
 	public void apply(AccountClosedEvent event) {

@@ -6,7 +6,7 @@ import com.pool.domain.AccountAggregate;
 import com.pool.handlers.EventSourcingHandler;
 
 @Service
-public class AccountCloseCommand implements CommandHandler {
+public class AccountCommandHandler implements CommandHandler {
 
 	@Autowired
 	private EventSourcingHandler<AccountAggregate> eventSourcingHandler;
