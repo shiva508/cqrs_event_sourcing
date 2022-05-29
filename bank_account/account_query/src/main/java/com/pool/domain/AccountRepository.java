@@ -1,5 +1,6 @@
 package com.pool.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<BankAccount, String> {
 	public Optional<BankAccount> findByAccountHolder(String accountHolder);
 
-	public Optional<BaseEntity> findByBalanceGreaterThan(String accountHolder);
+	public List<BaseEntity> findByBalanceGreaterThan(double balance);
 
-	public Optional<BaseEntity> findByBalanceLessThan(String accountHolder);
+	public List<BaseEntity> findByBalanceLessThan(double balance);
 }
