@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.pool.api.commands.CloseCommand;
+import com.pool.api.commands.CloseAccountCommand;
 import com.pool.api.commands.CommandHandler;
 import com.pool.api.commands.DepositFundsCommand;
 import com.pool.api.commands.OpenAccountCommand;
@@ -31,6 +31,6 @@ public class AccoundCmdApplication {
 		commandDispatcher.registerHandler(OpenAccountCommand.class, commandHandler::handle);
 		commandDispatcher.registerHandler(DepositFundsCommand.class, commandHandler::handle);
 		commandDispatcher.registerHandler(WithdrawFundsCommand.class, commandHandler::handle);
-		commandDispatcher.registerHandler(CloseCommand.class, commandHandler::handle);
+		commandDispatcher.registerHandler(CloseAccountCommand.class, commandHandler::handle);
 	}
 }

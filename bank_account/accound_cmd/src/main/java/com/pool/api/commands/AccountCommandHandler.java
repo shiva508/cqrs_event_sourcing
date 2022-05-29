@@ -35,7 +35,7 @@ public class AccountCommandHandler implements CommandHandler {
 	}
 
 	@Override
-	public void handle(CloseCommand command) {
+	public void handle(CloseAccountCommand command) {
 		var aggregate = eventSourcingHandler.getById(command.getId());
 		aggregate.closeAccount();
 		eventSourcingHandler.save(aggregate);
