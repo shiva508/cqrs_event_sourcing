@@ -10,6 +10,7 @@ import com.pool.api.commands.CloseAccountCommand;
 import com.pool.api.commands.CommandHandler;
 import com.pool.api.commands.DepositFundsCommand;
 import com.pool.api.commands.OpenAccountCommand;
+import com.pool.api.commands.RestoreReadDbCommand;
 import com.pool.api.commands.WithdrawFundsCommand;
 import com.pool.infrastructure.CommandDispatcher;
 
@@ -32,5 +33,6 @@ public class AccoundCmdApplication {
 		commandDispatcher.registerHandler(DepositFundsCommand.class, commandHandler::handle);
 		commandDispatcher.registerHandler(WithdrawFundsCommand.class, commandHandler::handle);
 		commandDispatcher.registerHandler(CloseAccountCommand.class, commandHandler::handle);
+		commandDispatcher.registerHandler(RestoreReadDbCommand.class, commandHandler::handle);
 	}
 }

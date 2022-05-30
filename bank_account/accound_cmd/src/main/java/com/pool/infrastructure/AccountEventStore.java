@@ -37,15 +37,9 @@ public class AccountEventStore implements EventStore {
 		for (var event : events) {
 			version++;
 			event.setVersion(version);
-			var eventModel = EventModel
-										.builder()
-										.timeStamp(new Date())
-										.aggregrateIdentifier(aggregateId)
-										.aggregrateType(AccountEventStore.class.getTypeName())
-										.version(version)
-										.eventType(event.getClass().getTypeName())
-										.eventData(event)
-										.build();
+			var eventModel = EventModel.builder().timeStamp(new Date()).aggregrateIdentifier(aggregateId)
+					.aggregrateType(AccountEventStore.class.getTypeName()).version(version)
+					.eventType(event.getClass().getTypeName()).eventData(event).build();
 
 			var persistedEvent = eventStoreRepository.save(eventModel);
 			if (!persistedEvent.getId().isEmpty()) {
@@ -63,6 +57,15 @@ public class AccountEventStore implements EventStore {
 			throw new ArrigateNotFoundException("Incurrect accound Id proviede");
 		}
 		return eventStream.stream().map(data -> data.getEventData()).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<String> getAggregrateIds() {
+		var eventStreams = eventStoreRepository.findAll();
+		if (null == eventStreams || eventStreams.isEmpty()) {
+			throw new IllegalStateException("Nothing is found");
+		}
+		return eventStreams.stream().map(EventModel::getAggregrateIdentifier).collect(Collectors.toList());
 	}
 
 }

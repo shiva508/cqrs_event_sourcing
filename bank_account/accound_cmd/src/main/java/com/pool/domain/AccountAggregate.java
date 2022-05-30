@@ -82,4 +82,10 @@ public class AccountAggregate extends AggregrateRoute {
 	public double getBalance() {
 		return balance;
 	}
+
+	public Boolean getActive() {
+		return active;
+	}
+	
+	
 }

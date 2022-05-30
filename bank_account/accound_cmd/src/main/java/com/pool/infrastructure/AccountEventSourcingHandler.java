@@ -7,14 +7,17 @@ import org.springframework.stereotype.Service;
 import com.pool.domain.AccountAggregate;
 import com.pool.domain.AggregrateRoute;
 import com.pool.handlers.EventSourcingHandler;
+import com.pool.producers.EventProducer;
 
 @Service
 public class AccountEventSourcingHandler implements EventSourcingHandler<AccountAggregate> {
 	private final EventStore eventStore;
+	private final EventProducer eventProducer;
 
 	@Autowired
-	public AccountEventSourcingHandler(EventStore eventStore) {
+	public AccountEventSourcingHandler(EventStore eventStore,EventProducer eventProducer) {
 		this.eventStore = eventStore;
+		this.eventProducer=eventProducer;
 	}
 
 	@Override
@@ -34,5 +37,18 @@ public class AccountEventSourcingHandler implements EventSourcingHandler<Account
 	public void save(AggregrateRoute route) {
 		eventStore.saveEvent(route.getId(), route.getUnCommittedChanges(), route.getVersion());
 		route.getUnCommittedChanges();
+	}
+
+	@Override
+	public void republishEvents() {
+		var aggregrateIds = eventStore.getAggregrateIds();
+		for (String aggregrateId : aggregrateIds) {
+			var accountAggregate=this.getById(aggregrateId);
+			if(accountAggregate==null || !accountAggregate.getActive()) continue;
+			var events=eventStore.getEvents(aggregrateId);
+			for (var event : events) {
+				eventProducer.produce(event.getClass().getSimpleName(), event);
+			}
+		}
 	}
 }

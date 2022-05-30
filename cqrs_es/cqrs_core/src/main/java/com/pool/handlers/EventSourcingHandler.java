@@ -6,4 +6,6 @@ public interface EventSourcingHandler<T> {
 	public void save(AggregrateRoute route);
 
 	public T getById(String id);
+
+	public void republishEvents();
 }

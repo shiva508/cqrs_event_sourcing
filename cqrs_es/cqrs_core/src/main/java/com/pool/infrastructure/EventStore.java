@@ -8,4 +8,6 @@ public interface EventStore {
 	public void saveEvent(String aggregateId, Iterable<BaseEvent> events, int expectedVersion);
 
 	List<BaseEvent> getEvents(String aggregateId);
+	
+	public List<String> getAggregrateIds();
 }

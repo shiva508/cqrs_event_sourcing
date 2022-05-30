@@ -8,4 +8,7 @@ public interface CommandHandler {
 	public void handle(WithdrawFundsCommand command);
 
 	public void handle(CloseAccountCommand command);
+
+	public void handle(RestoreReadDbCommand command);
+
 }
