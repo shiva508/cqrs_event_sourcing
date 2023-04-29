@@ -29,7 +29,6 @@ public class RestoreReadDbController {
 	@PostMapping("/newaccount")
 	public ResponseEntity<BaseResponse> restoreReadDb() {
 		var id = UUID.randomUUID().toString();
-		command.setId(id);
 		try {
 			logger.info("");
 			commandDispatcher.send(new RestoreReadDbCommand());
